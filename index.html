@@ -44,7 +44,7 @@
 				<br><a style="font-size: 12px;" href="https://github.com/cabalex/fnf-song-converter/wiki#what-do-the-extended-note-handling-options-mean">What does this mean?</a></p>
 				<p id="fileName" onclick="getFile()" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">Upload your file...</p>
 			</div>
-			<div style='height: 0px;width: 0px; overflow:hidden;'><input type="file" accept=".json", id="fileInput", onchange="fileLoad(event)"></div>
+			<div style='height: 0px;width: 0px; overflow:hidden;'><input type="file" accept=".json" id="fileInput" multiple></div>
 		</form>
 		<div id="output" style="width: 90%; max-width: 500px; flex-direction: row; justify-content: left; flex-wrap: wrap; display: flex; background-color: rgba(77, 151, 255, 0.25); align-items: center; border-radius: 0.25rem; padding:0.5em; margin:0.5em 0; display: none;"></div>
 		<div style="padding-top: 2em; padding-bottom: 2em; padding-left: 1em; padding-right: 1em">
