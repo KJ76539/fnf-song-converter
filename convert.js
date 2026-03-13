@@ -120,6 +120,13 @@ inputElement.onchange = async () => {
 
   let json = structuredClone(chartFile.json);
 
+  // Merge events already inside chart.json
+  if (Array.isArray(json?.song?.events) && json.song.events.length > 0) {
+    json = mergeEventsIntoChart(json, json);
+    json.song.events = [];
+  }
+
+  // Merge separate events.json if uploaded
   if (eventsFile && eventsFile !== chartFile) {
     json = mergeEventsIntoChart(json, eventsFile.json);
   }
@@ -170,14 +177,15 @@ function convertLoadedChart(json, originalFileName) {
     beginsection_timing += ((60 / bpm) * 4) / 16 * section.lengthInSteps * 1000;
 
     for (let x = 0; x < section.sectionNotes.length; x++) {
-      let note = section.sectionNotes[x];
+      const note = section.sectionNotes[x];
       let timing = note[0].toFixed(4).padStart(12, "0");
 
       if (note[0].toString().split(".").length == 1) {
         timing = note[0].toString().padStart(7, "0");
       }
 
-      // Embedded Psych events: [time, -1, "Event Name", "Value1", "Value2"]
+      // Embedded Psych events:
+      // [time, -1, "Event Name", "Value1", "Value2"]
       if (note[1] === -1) {
         addToNotesList(timing, `undefined_${note[2]}_${note[3] ?? ""}_${note[4] ?? ""}`);
         continue;
@@ -247,7 +255,8 @@ function convertLoadedChart(json, originalFileName) {
   }
 
   const blob = new Blob([scratchList.join("\n")], { type: "text/plain" });
-  document.body.appendChild(document.createElement("a"));
+  const a = document.createElement("a");
+  document.body.appendChild(a);
   const url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
 
